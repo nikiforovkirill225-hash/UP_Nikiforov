@@ -22,6 +22,17 @@ namespace UP_Nikiforov.Pages
             InitializeComponent();
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Очистка полей при загрузке страницы
+            tbLogin.Text = "";
+            if (pbPassword != null)
+            {
+                pbPassword.Password = "";
+            }
+            tbError.Visibility = Visibility.Collapsed;
+        }
+
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbLogin.Text) || string.IsNullOrWhiteSpace(pbPassword.Password))
@@ -53,7 +64,7 @@ namespace UP_Nikiforov.Pages
             }
         }
 
-        private void btnGoToRegister_Click(object sender, RoutedEventArgs e)
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new RegisterPage());
         }

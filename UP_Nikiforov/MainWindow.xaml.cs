@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using UP_Nikiforov.Pages;
 namespace UP_Nikiforov
 {
     public partial class MainWindow : Window
@@ -57,7 +57,7 @@ namespace UP_Nikiforov
 
         private void btnLists_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ListsPage());
+            MainFrame.Navigate(new ListPage());
         }
 
         private void btnAuthor_Click(object sender, RoutedEventArgs e)

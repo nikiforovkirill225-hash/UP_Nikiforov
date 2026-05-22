@@ -31,34 +31,53 @@ namespace UP_Nikiforov.Pages
             tblEmail.Text = Core.CurrentUser.Email;
 
             var role = Core.Context.Roles.FirstOrDefault(r => r.ID == Core.CurrentUser.RoleID);
-            if (role != null)
-            {
-                tblRole.Text = role.Name;
-            }
+            tblRole.Text = role != null ? role.Name : "Пользователь";
 
-            int listsCount = Core.Context.ReadingLists.Count(rl => rl.UserID == Core.CurrentUser.ID);
-            tblBooksInListsCount.Text = listsCount.ToString();
+            int booksInLists = Core.Context.ReadingLists.Count(rl => rl.UserID == Core.CurrentUser.ID);
+            tblBooksInListsCount.Text = booksInLists.ToString();
 
-            if (Core.CurrentUser.RoleID == 2)
+            int userReviews = Core.Context.Reviews.Count(r => r.UserID == Core.CurrentUser.ID);
+            tblUserReviewsCount.Text = userReviews.ToString();
+
+            if (Core.CurrentUser.RoleID == 2 || Core.CurrentUser.RoleID == 3)
             {
                 borderAuthorStats.Visibility = Visibility.Visible;
-                int authorBooksCount = Core.Context.Books.Count(b => b.AuthorID == Core.CurrentUser.ID);
-                tblAuthorBooksCount.Text = authorBooksCount.ToString();
+                int authorBooks = Core.Context.Books.Count(b => b.AuthorID == Core.CurrentUser.ID);
+                tblAuthorBooksCount.Text = authorBooks.ToString();
+                btnRequestAuthor.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                borderAuthorStats.Visibility = Visibility.Collapsed;
+                btnRequestAuthor.Visibility = Visibility.Visible;
             }
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             Core.CurrentUser = null;
+            NavigationService.Navigate(new LoginPage());
+        }
 
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (mainWindow != null)
+        private void btnRequestAuthor_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы хотите подать заявку на получение роли автора? После подтверждения вы сможете публиковать свои книги.",
+                "Заявка на роль автора", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                mainWindow.SidebarBorder.Visibility = Visibility.Collapsed;
-                mainWindow.btnAdmin.Visibility = Visibility.Collapsed;
-                mainWindow.btnAuthor.Visibility = Visibility.Collapsed;
-                mainWindow.btnFreezeWarning.Visibility = Visibility.Collapsed;
-                mainWindow.MainFrame.Navigate(new LoginPage());
+                try
+                {
+                    MessageBox.Show("Ваша заявка на роль автора отправлена администратору. Ожидайте подтверждения.",
+                        "Заявка отправлена", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    btnRequestAuthor.Visibility = Visibility.Collapsed;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при отправке заявки: {ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
