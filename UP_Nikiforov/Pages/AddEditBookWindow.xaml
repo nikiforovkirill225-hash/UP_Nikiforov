@@ -1,0 +1,182 @@
+﻿<Window x:Class="UP_Nikiforov.Pages.AddEditBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UP_Nikiforov.Pages"
+        mc:Ignorable="d"
+        Title="✏️ Редактор произведений" 
+        Height="580" Width="620" 
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
+        Background="#FFF5F7FA">
+
+    <Window.Resources>
+        <!-- Стили для улучшенного внешнего вида -->
+        <Style x:Key="FormLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#FF2C3E50"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <Style x:Key="FormTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#FFD5DEE5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#FF1A2B3E"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="8,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF3498DB"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#FFE94560"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.97" ScaleY="0.97"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="White" CornerRadius="16" Margin="12">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" Direction="270" Opacity="0.12" ShadowDepth="6"/>
+        </Border.Effect>
+
+        <Grid Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок окна -->
+            <Border Grid.Row="0" Margin="0,0,0,20" Background="#FFF8F9FC" CornerRadius="12" Padding="12,8">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="32" Height="32" CornerRadius="8" Background="#FFE94560" Margin="0,0,12,0">
+                        <TextBlock Text="📖" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="Публикация произведения" FontSize="16" FontWeight="Bold" Foreground="#FF1A1A2E"/>
+                        <TextBlock Text="Заполните информацию о книге" FontSize="11" Foreground="#FF7F8C9A"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Название книги -->
+            <StackPanel Grid.Row="1" Margin="0,0,0,16">
+                <TextBlock Text="📌 Заголовок" Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="tbTitle" Style="{StaticResource FormTextBoxStyle}" 
+                         TextWrapping="NoWrap"
+                         MaxLength="200"/>
+            </StackPanel>
+
+            <!-- Ссылка на обложку -->
+            <StackPanel Grid.Row="2" Margin="0,0,0,16">
+                <TextBlock Text="🖼️ Обложка" Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="tbCoverPath" Style="{StaticResource FormTextBoxStyle}"
+                         TextWrapping="NoWrap"/>
+            </StackPanel>
+
+            <!-- Краткое описание -->
+            <StackPanel Grid.Row="3" Margin="0,0,0,16">
+                <TextBlock Text="📝 Аннотация" Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="tbDescription" 
+                         Style="{StaticResource FormTextBoxStyle}"
+                         Height="70" 
+                         TextWrapping="Wrap" 
+                         AcceptsReturn="True" 
+                         VerticalContentAlignment="Top"
+                         VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+
+            <!-- Текст произведения -->
+            <Grid Grid.Row="4" Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="📄 Содержание" Style="{StaticResource FormLabelStyle}"/>
+                <TextBox x:Name="tbTextContent" 
+                         Grid.Row="1" 
+                         Style="{StaticResource FormTextBoxStyle}"
+                         Height="Auto"
+                         TextWrapping="Wrap" 
+                         AcceptsReturn="True" 
+                         VerticalContentAlignment="Top" 
+                         VerticalScrollBarVisibility="Auto"
+                         MinHeight="140"/>
+            </Grid>
+
+            <!-- Кнопки действий -->
+            <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <Button x:Name="btnCancel" 
+                        Content="✕ Отменить" 
+                        Style="{StaticResource ActionButtonStyle}"
+                        Click="btnCancel_Click" 
+                        Background="#FFE74C3C" 
+                        Margin="0,0,12,0"/>
+                <Button x:Name="btnSave" 
+                        Content="✓ Опубликовать" 
+                        Style="{StaticResource ActionButtonStyle}"
+                        Click="btnSave_Click" 
+                        Background="#FF27AE60" 
+                        FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
