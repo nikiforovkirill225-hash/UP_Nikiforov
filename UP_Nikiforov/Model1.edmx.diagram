@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1656b2ce1e034bd7bb305a2878a8c085" Name="Diagram1">
+      <Diagram DiagramId="1656b2ce1e034bd7bb305a2878a8c085" Name="Diagram1" ZoomLevel="47">
         <EntityTypeShape EntityType="ShutAndKrolModel.Books" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.Complaints" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.Genres" Width="1.5" PointX="7.5" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShutAndKrolModel.ReadingLists" Width="1.5" PointX="10.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShutAndKrolModel.ReadingLists" Width="1.5" PointX="10.25" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.ReadingListStatuses" Width="1.5" PointX="8.25" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.Reviews" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.RoleRequests" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.Roles" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShutAndKrolModel.UnfreezeRequests" Width="1.5" PointX="10.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShutAndKrolModel.UnfreezeRequests" Width="1.5" PointX="10.5" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ShutAndKrolModel.Users" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <AssociationConnector Association="ShutAndKrolModel.FK_Books_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ShutAndKrolModel.FK_Complaints_Books" ManuallyRouted="false" />
