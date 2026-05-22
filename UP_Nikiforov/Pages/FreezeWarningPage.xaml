@@ -1,0 +1,157 @@
+﻿<Page x:Class="UP_Nikiforov.Pages.FreezeWarningPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UP_Nikiforov.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="⚠️ Уведомление о блокировке"
+      Background="#FFF5F7FA">
+
+    <Page.Resources>
+        <Style x:Key="WarningCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FFFEF5F5"/>
+            <Setter Property="BorderBrush" Value="#FFE74C3C"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Width" Value="600"/>
+        </Style>
+
+        <Style x:Key="BulletPointStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#FF34495E"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="#FFF5F7FA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхний декоративный элемент -->
+        <Border Grid.Row="0" Height="8" Background="#FFE74C3C"/>
+
+        <!-- Центральная карточка -->
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled">
+            <Border Style="{StaticResource WarningCardStyle}" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    Margin="32">
+
+                <Grid Margin="32">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Иконка предупреждения -->
+                    <Border Grid.Row="0" 
+                            Width="80" 
+                            Height="80" 
+                            Background="#FFFDEDEC"
+                            BorderBrush="#FFE74C3C"
+                            BorderThickness="3"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,20">
+                        <TextBlock Text="⚠️" FontSize="44" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Заголовок -->
+                    <TextBlock Grid.Row="1" 
+                               Text="Аккаунт временно заблокирован" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#FFC0392B" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,16"
+                               TextAlignment="Center"/>
+
+                    <!-- Разделитель -->
+                    <Border Grid.Row="2" 
+                            Height="4" 
+                            Width="60" 
+                            Background="#FFE74C3C" 
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,20"/>
+
+                    <!-- Основное сообщение -->
+                    <Border Grid.Row="3" 
+                            Background="#FFFFF0F0" 
+                            Padding="20" 
+                            Margin="0,0,0,20">
+                        <TextBlock Text="Администрация платформы &quot;ШутИКроль&quot; наложила ограничения на ваш профиль в связи с нарушением правил публикации или получением жалоб от других пользователей." 
+                                   FontSize="14" 
+                                   Foreground="#FF2C3E50" 
+                                   TextWrapping="Wrap" 
+                                   TextAlignment="Center"
+                                   LineHeight="22"/>
+                    </Border>
+
+                    <!-- Что означает блокировка -->
+                    <TextBlock Grid.Row="4" 
+                               Text="🚫 Последствия блокировки:" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Foreground="#FF2C3E50" 
+                               Margin="0,0,0,12"/>
+
+                    <StackPanel Grid.Row="5" Margin="20,0,0,24">
+                        <TextBlock Style="{StaticResource BulletPointStyle}">
+                            <Run Text="🔒 " Foreground="#FFE74C3C"/><Run Text="Невозможность публикации новых книг"/>
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BulletPointStyle}">
+                            <Run Text="✏️ " Foreground="#FFE74C3C"/><Run Text="Редактирование существующих произведений недоступно"/>
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BulletPointStyle}">
+                            <Run Text="💬 " Foreground="#FFE74C3C"/><Run Text="Добавление новых отзывов и оценок приостановлено"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Контактная информация -->
+                    <Border Grid.Row="6" 
+                            Background="#FFF8F9FC" 
+                            Padding="20" 
+                            BorderBrush="#FFE2E8F0" 
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="📧 Поддержка платформы" 
+                                       FontSize="12" 
+                                       FontWeight="SemiBold" 
+                                       Foreground="#FF7F8C9A"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,8"/>
+                            <TextBlock Text="support@shutikrol.ru" 
+                                       FontSize="15" 
+                                       FontWeight="Bold" 
+                                       Foreground="#FF3498DB"
+                                       HorizontalAlignment="Center"
+                                       TextDecorations="Underline"
+                                       Cursor="Hand"
+                                       Margin="0,0,0,8">
+                                <TextBlock.ToolTip>
+                                    <ToolTip Content="Копировать email для обращения"/>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                            <TextBlock Text="Для уточнения деталей или обжалования блокировки свяжитесь с нами" 
+                                       FontSize="11" 
+                                       Foreground="#FF95A5A6"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Page>

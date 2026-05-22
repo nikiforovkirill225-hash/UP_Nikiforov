@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace UP_Nikiforov.Pages
 {
@@ -116,13 +108,36 @@ namespace UP_Nikiforov.Pages
 
         private void btnRead_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(_currentBook.TextContent, _currentBook.Title, MessageBoxButton.OK, MessageBoxImage.None);
+            var readerWindow = new Window
+            {
+                Title = _currentBook.Title,
+                Width = 600,
+                Height = 500,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = Window.GetWindow(this),
+                Content = new ScrollViewer
+                {
+                    Content = new TextBox
+                    {
+                        Text = _currentBook.TextContent,
+                        TextWrapping = TextWrapping.Wrap,
+                        IsReadOnly = true,
+                        Margin = new Thickness(20),
+                        FontSize = 14,
+                        BorderThickness = new Thickness(0),
+                        Background = SystemColors.ControlLightBrush,
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                    }
+                }
+            };
+            readerWindow.ShowDialog();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new CatalogPage());
         }
+
         private void cbBookStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Core.CurrentUser == null || cbBookStatus.SelectedValue == null) return;
@@ -158,6 +173,7 @@ namespace UP_Nikiforov.Pages
 
             Core.Context.SaveChanges();
         }
+
         private void btnComplainBook_Click(object sender, RoutedEventArgs e)
         {
             if (Core.CurrentUser == null)
@@ -166,8 +182,7 @@ namespace UP_Nikiforov.Pages
                 return;
             }
 
-            string reason = Microsoft.VisualBasic.Interaction.InputBox("Введите причину жалобы на книгу:", "Жалоба на произведение", "Нарушение авторских прав / Неприемлемый контент");
-
+            string reason = ShowInputDialog("Жалоба на произведение", "Введите причину жалобы на книгу:", "Нарушение авторских прав / Неприемлемый контент");
             if (string.IsNullOrWhiteSpace(reason)) return;
 
             Complaints newComplaint = new Complaints
@@ -185,7 +200,6 @@ namespace UP_Nikiforov.Pages
             MessageBox.Show("Жалоба на книгу успешно отправлена администрации.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-
         private void btnComplainAuthor_Click(object sender, RoutedEventArgs e)
         {
             if (Core.CurrentUser == null)
@@ -194,10 +208,8 @@ namespace UP_Nikiforov.Pages
                 return;
             }
 
-            string reason = Microsoft.VisualBasic.Interaction.InputBox("Введите причину жалобы на автора:", "Жалоба на автора", "Оскорбительное поведение / Спам");
-
+            string reason = ShowInputDialog("Жалоба на автора", "Введите причину жалобы на автора:", "Оскорбительное поведение / Спам");
             if (string.IsNullOrWhiteSpace(reason)) return;
-
 
             Complaints newComplaint = new Complaints
             {
@@ -209,11 +221,10 @@ namespace UP_Nikiforov.Pages
             };
 
             Core.Context.Complaints.Add(newComplaint);
-            Core.Context.SaveChanges(); 
+            Core.Context.SaveChanges();
 
             MessageBox.Show("Жалоба на автора успешно отправлена администрации.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
 
         private void btnAdminFreezeBook_Click(object sender, RoutedEventArgs e)
         {
@@ -231,6 +242,81 @@ namespace UP_Nikiforov.Pages
                     NavigationService.Navigate(new CatalogPage());
                 }
             }
+        }
+
+        // Кастомное диалоговое окно для ввода текста вместо Microsoft.VisualBasic.Interaction.InputBox
+        private string ShowInputDialog(string title, string promptText, string defaultValue = "")
+        {
+            Window dialog = new Window
+            {
+                Title = title,
+                Width = 450,
+                Height = 200,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = Window.GetWindow(this),
+                ResizeMode = ResizeMode.NoResize,
+                Background = SystemColors.ControlBrush,
+                BorderBrush = SystemColors.ControlDarkBrush,
+                BorderThickness = new Thickness(1)
+            };
+
+            StackPanel stackPanel = new StackPanel { Margin = new Thickness(20) };
+
+            TextBlock prompt = new TextBlock
+            {
+                Text = promptText,
+                FontSize = 14,
+                Margin = new Thickness(0, 0, 0, 15),
+                TextWrapping = TextWrapping.Wrap
+            };
+
+            TextBox inputBox = new TextBox
+            {
+                Text = defaultValue,
+                FontSize = 13,
+                Margin = new Thickness(0, 0, 0, 20),
+                Height = 30,
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
+
+            StackPanel buttonPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+
+            Button okButton = new Button
+            {
+                Content = "OK",
+                Width = 80,
+                Height = 30,
+                Margin = new Thickness(0, 0, 10, 0),
+                Background = SystemColors.ControlLightBrush
+            };
+
+            Button cancelButton = new Button
+            {
+                Content = "Отмена",
+                Width = 80,
+                Height = 30,
+                Background = SystemColors.ControlLightBrush
+            };
+
+            okButton.Click += (s, e) => { dialog.DialogResult = true; dialog.Close(); };
+            cancelButton.Click += (s, e) => { dialog.DialogResult = false; dialog.Close(); };
+
+            buttonPanel.Children.Add(okButton);
+            buttonPanel.Children.Add(cancelButton);
+
+            stackPanel.Children.Add(prompt);
+            stackPanel.Children.Add(inputBox);
+            stackPanel.Children.Add(buttonPanel);
+
+            dialog.Content = stackPanel;
+            dialog.KeyDown += (s, e) => { if (e.Key == Key.Enter) { dialog.DialogResult = true; dialog.Close(); } };
+
+            bool? result = dialog.ShowDialog();
+            return result == true ? inputBox.Text : null;
         }
     }
 }

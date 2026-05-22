@@ -1,0 +1,203 @@
+﻿<Page x:Class="UP_Nikiforov.Pages.ListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UP_Nikiforov.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="📋 Персональная библиотека" 
+      Loaded="Page_Loaded"
+      Background="#FFF0F2F5">
+
+    <Grid Background="#FFF0F2F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка страницы -->
+        <Border Grid.Row="0" 
+                Background="White" 
+                Padding="24,20" 
+                Margin="0,0,0,16"
+                BorderBrush="#FFE2E8F0"
+                BorderThickness="0,0,0,1">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Логотип и заголовок -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Border Width="48" Height="48" Background="#FFE94560" Margin="0,0,16,0">
+                        <TextBlock Text="📋" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="Мои списки" FontSize="20" FontWeight="Bold" Foreground="#FF1A1A2E"/>
+                        <TextBlock Text="Управление коллекцией книг" FontSize="12" Foreground="#FF7F8C9A"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Фильтр категории -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="📌 Категория:" 
+                               VerticalAlignment="Center" 
+                               FontSize="13" 
+                               FontWeight="SemiBold"
+                               Foreground="#FF5A6E7A" 
+                               Margin="0,0,12,0"/>
+                    <ComboBox x:Name="cbListFilter" 
+                              Width="220" 
+                              Height="30"
+                              SelectionChanged="cbListFilter_SelectionChanged">
+                        <ComboBoxItem Content="📚 Все книги" IsSelected="True"/>
+                        <ComboBoxItem Content="⭐ Хочу прочитать"/>
+                        <ComboBoxItem Content="📖 Читаю сейчас"/>
+                        <ComboBoxItem Content="✅ Уже прочитано"/>
+                        <ComboBoxItem Content="💔 Заброшено"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Сетка книг -->
+        <Border Grid.Row="1" Margin="16,0,16,20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Disabled">
+
+                <ListView x:Name="lvUserBooks" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          MouseDoubleClick="lvUserBooks_MouseDoubleClick">
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Top"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White" 
+                                    BorderBrush="#FFE2E8F0" 
+                                    BorderThickness="1" 
+                                    Margin="12" 
+                                    Width="180" 
+                                    Height="280"
+                                    Cursor="Hand">
+                                <Grid Margin="12">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Обложка -->
+                                    <Border Grid.Row="0" 
+                                            Background="#FFF8F9FC"
+                                            Margin="0,0,0,10">
+                                        <Image Source="{Binding Books.CoverPath}" 
+                                               Stretch="UniformToFill" 
+                                               MaxHeight="150"
+                                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    </Border>
+
+                                    <!-- Название книги -->
+                                    <TextBlock Grid.Row="1" 
+                                               Text="{Binding Books.Title}" 
+                                               FontWeight="Bold" 
+                                               FontSize="13" 
+                                               TextWrapping="Wrap" 
+                                               MaxHeight="38" 
+                                               TextTrimming="CharacterEllipsis" 
+                                               HorizontalAlignment="Center" 
+                                               TextAlignment="Center"
+                                               Foreground="#FF1A1A2E"
+                                               Margin="0,6,0,4"/>
+
+                                    <!-- Автор -->
+                                    <Border Grid.Row="2" 
+                                            Background="#FFF8F9FC" 
+                                            Padding="8,3" 
+                                            HorizontalAlignment="Center"
+                                            Margin="0,4,0,6">
+                                        <TextBlock Text="{Binding Books.Users.DisplayName}" 
+                                                   FontSize="10" 
+                                                   Foreground="#FF7F8C9A"
+                                                   HorizontalAlignment="Center"/>
+                                    </Border>
+
+                                    <!-- Статус -->
+                                    <Border Grid.Row="3" 
+                                            Background="#FFF0F7FF" 
+                                            Padding="12,6" 
+                                            BorderBrush="#FF3498DB" 
+                                            BorderThickness="1"
+                                            HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding ReadingListStatuses.Name}" 
+                                                   FontSize="11" 
+                                                   FontWeight="SemiBold" 
+                                                   Foreground="#FF3498DB"
+                                                   HorizontalAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Пустое состояние -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                Width="400" 
+                Height="200"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                Visibility="Collapsed"
+                x:Name="EmptyStatePanel">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="32">
+                <TextBlock Text="📭" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                <TextBlock Text="В этом списке пока нет книг" 
+                           FontSize="16" 
+                           FontWeight="SemiBold" 
+                           Foreground="#FF5A6E7A"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,8"/>
+                <TextBlock Text="Добавьте книги из каталога в свой список чтения" 
+                           FontSize="12" 
+                           Foreground="#FF95A5A6"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
