@@ -209,7 +209,7 @@ namespace UP_Nikiforov.Pages
             };
 
             Core.Context.Complaints.Add(newComplaint);
-            Core.Context.SaveChanges();
+            Core.Context.SaveChanges(); 
 
             MessageBox.Show("Жалоба на автора успешно отправлена администрации.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
         }
